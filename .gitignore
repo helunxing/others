@@ -1,0 +1,6 @@
+
+info/exclude
+config
+description
+HEAD
+*.sample
