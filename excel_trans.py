@@ -169,25 +169,24 @@ class excel_trans:
         print(course['dtstart'], course['dtend'])
         print()
 
-e = excel_trans.excel_trans()
 
-addr = 'C:\\source.xlsx'
-lsns_list = e.excel_trans(addr)
+e = excel_trans()
 
-excel_trans.cal_create(lsns_list, e.cal_temp_list)
+# addr = 'C:\\source.xlsx'
+# lsns_list = e.excel_trans(addr)
+# cal_create(lsns_list, e.cal_temp_list)
 
+tz = pytz.timezone('Asia/Shanghai')
+date = datetime.date(year=2018, month=12, day=3)
+time = datetime.time(hour=13, minute=40, tzinfo=tz)
+time2 = datetime.time(hour=15, tzinfo=tz)
+test_list = [{
+    'summary': '名称',
+    'dtstart': datetime.datetime.combine(date, time),
+    'dtend': datetime.datetime.combine(date, time2),
+    'location': '位置',
+    'rrule': {}}]
+cal_create(test_list, e.cal_temp_list)
 
 # 写了这个程序，我发现抽象业务逻辑的能力不强。
 # 想写出易于修改、通用性强的代码并非易事。
-
-# tz = pytz.timezone('Asia/Shanghai')
-# date = datetime.date(year=2018, month=8, day=3)
-# time = datetime.time(hour=9,  tzinfo=tz)
-# time2 = datetime.time(hour=11,  tzinfo=tz)
-# test_list = [{
-#     'summary': '名称',
-#     'dtstart': datetime.datetime.combine(date,time),
-#     'dtend': datetime.datetime.combine(date,time2),
-#     'location': '位置',
-#     'rrule': {}}]
-# excel_trans.cal_create(test_list, e.cal_temp_list)
