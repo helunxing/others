@@ -8,9 +8,7 @@ import os
 
 class exif_edit:
     # 自文件夹修正偏移
-    def offset_form_fder(self, src_addr, dtn_addr):
-        time_offset = datetime.timedelta(days=245, seconds=32132)
-
+    def offset_form_fder(self, src_addr, dtn_addr, time_offset):
         for src_file_addr in os.listdir(src_addr):
             kind = src_file_addr.split('.')[1].lower()
             if kind != 'jpg':
