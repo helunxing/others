@@ -9,7 +9,8 @@ import os
 class exif_edit:
     # 自文件夹修正偏移
     def offset_form_fder(self, src_addr, dtn_addr, time_offset):
-        for src_file_addr in os.listdir(src_addr):
+        pic_list = os.listdir(src_addr)
+        for src_file_addr in pic_list:
             kind = src_file_addr.split('.')[1].lower()
             if kind != 'jpg':
                 continue
@@ -20,6 +21,7 @@ class exif_edit:
             source_sess = piexif.load(full_src_file_addr)
             self.edit_time_by_offset(
                 source_sess, full_dtn_file_addr, time_offset)
+        print('共修改%(l)d张照片'%{'l':len(pic_list)})
 
     # 将单个照片按照偏移量更正为为正确的时间
     def edit_time_by_offset(self, exif_source, destin_addr, time_offset):
