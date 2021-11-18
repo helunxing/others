@@ -1,7 +1,5 @@
 import datetime
 import subprocess
-# import datetime
-
 import os
 
 
@@ -59,7 +57,8 @@ class renametool:
     def rename_single_folder(self):
         if not self.p.endswith('/'):
             self.p += '/'
-        for file_name in os.listdir(self.p):
+        file_names = sorted(os.listdir(self.p))
+        for file_name in file_names:
             self.rename_single_file(self.p, file_name)
 
     def rename_single_file(self, p, file_name):
