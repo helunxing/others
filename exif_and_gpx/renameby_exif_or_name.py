@@ -1,6 +1,6 @@
-from datetime import datetime
-import subprocess
 import datetime
+import subprocess
+# import datetime
 
 import os
 
@@ -8,8 +8,11 @@ import os
 class renametool:
     # TODO 按名称排序再读取
     # TODO 生成命名计划后,询问是否执行
-    @staticmethod
-    def get_photo_softwarestr_taken(filepath):
+    def __init__(self, p):
+        self.p = p
+        self.rename_single_folder()
+
+    def get_photo_softwarestr_taken(self, filepath):
         cmd = "exiftool -software '%s'" % filepath
         output = subprocess.check_output(cmd, shell=True)
         lines = output.decode("utf8").split("\n")
@@ -18,8 +21,7 @@ class renametool:
                 return l.split(': ')[1]
         return ''
 
-    @staticmethod
-    def get_photo_datestr_taken(filepath):
+    def get_photo_datestr_taken(self, filepath):
         """Gets the date taken for a photo through a shell."""
         cmd = "exiftool -DateTimeOriginal -createdate -model '%s'" % filepath
         output = subprocess.check_output(cmd, shell=True)
@@ -44,8 +46,7 @@ class renametool:
             return ''
         return dt.strftime("%y%m%d_%H%M%S")
 
-    @staticmethod
-    def create_repli_str(old_file_path, new_file_path, exte_name):
+    def create_repli_str(self, old_file_path, new_file_path, exte_name):
         cnt = 0
         repli_str = ''
         if new_file_path+repli_str+exte_name == old_file_path:
@@ -55,15 +56,13 @@ class renametool:
             repli_str = 'P%d' % cnt
         return repli_str
 
-    @staticmethod
-    def rename_single_folder(p):
-        if not p.endswith('/'):
-            p += '/'
-        for file_name in os.listdir(p):
-            renametool.rename_single_file(p, file_name)
+    def rename_single_folder(self):
+        if not self.p.endswith('/'):
+            self.p += '/'
+        for file_name in os.listdir(self.p):
+            self.rename_single_file(self.p, file_name)
 
-    @staticmethod
-    def rename_single_file(p, file_name):
+    def rename_single_file(self, p, file_name):
 
         if '.' not in file_name or file_name.startswith('.') or os.path.isdir(p+file_name):
             return
@@ -80,7 +79,7 @@ class renametool:
         if file_name.startswith('IMG_20') or file_name.startswith('VID_20'):
             new_file = p+file_name[6:-1*len(exte_name)]
         else:
-            date_str = renametool.get_photo_datestr_taken(old_file_path)
+            date_str = self.get_photo_datestr_taken(old_file_path)
             if not date_str:
                 return
             new_file = p + date_str
@@ -88,7 +87,7 @@ class renametool:
         print('renaming %s' % file_name, end='\t')
 
         # 判断重复
-        repli_str = renametool.create_repli_str(
+        repli_str = self.create_repli_str(
             old_file_path, new_file, exte_name)
 
         # 执行改名
@@ -100,9 +99,7 @@ class renametool:
             print('same')
 
 
-p = '/Volumes/Untitle/DCIM/101_FUJI'
-
-renametool.rename_single_folder(p)
+renametool('/Volumes/Untitle/DCIM/101_FUJI')
 
 # renametool.rename_single_file("/Users/h/Downloads/", "IMG_0711.JPG")
 

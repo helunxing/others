@@ -21,7 +21,7 @@ class exif_edit:
             source_sess = piexif.load(full_src_file_addr)
             self.edit_time_by_offset(
                 source_sess, full_dtn_file_addr, time_offset)
-        print('共修改%(l)d张照片'%{'l':len(pic_list)})
+        print('共修改%(l)d张照片' % {'l': len(pic_list)})
 
     # 将单个照片按照偏移量更正为为正确的时间
     def edit_time_by_offset(self, exif_source, destin_addr, time_offset):
